@@ -32,7 +32,7 @@ app.post('/woocommerce-webhook', (req, res) => {
 
   const orderData = {
     site: 'malik-brand.com',
-    order: JSON.stringify({
+    order: {
       externalId: webhookData.line_items[0].variation_id,
       firstName: webhookData.billing.first_name,
       lastName: webhookData.billing.last_name,
@@ -51,7 +51,7 @@ app.post('/woocommerce-webhook', (req, res) => {
         quantity: item.quantity,
         purchasePrice: item.price,
       })),
-    })
+    }
 
   };
   const postData = querystring.stringify(orderData);

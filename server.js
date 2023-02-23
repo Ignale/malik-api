@@ -54,7 +54,7 @@ app.post('/woocommerce-webhook', (req, res) => {
     }
 
   };
-  const postData = querystring.stringify({ data: JSON.stringify(postData) });
+  const postData = querystring.stringify({ data: JSON.stringify(orderData) });
 
   // Set the request options
   const options = {

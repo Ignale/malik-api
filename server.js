@@ -29,7 +29,7 @@ app.post('/woocommerce-webhook', (req, res) => {
   res.status(200).send('Webhook received');
 
   const orderData = {
-    externalId: webhookData.line_items[0].item.variation_id,
+    externalId: webhookData.line_items[0].variation_id,
     firstName: webhookData.billing.first_name,
     lastName: webhookData.billing.last_name,
     email: webhookData.billing.email,

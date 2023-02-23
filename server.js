@@ -31,7 +31,6 @@ app.post('/woocommerce-webhook', (req, res) => {
   res.status(200).send('Webhook received');
 
   const orderData = {
-    site: 'malik-brand.com',
     order: {
       externalId: webhookData.line_items[0].variation_id,
       firstName: webhookData.billing.first_name,

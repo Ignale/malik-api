@@ -60,10 +60,10 @@ app.post('/woocommerce-webhook', (req, res) => {
     hostname: 'https://malik-brand.retailcrm.ru',
     path: '/api/v5/orders/create',
     method: 'POST',
+    auth: 'hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Content-Length': Buffer.byteLength(postData),
-      'X-API-KEY': 'hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp'
     },
   };
   // Send the order data to RetailCRM's API to create the order

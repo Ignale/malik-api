@@ -1,5 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser');
+const crypto = require('crypto');
+const { request } = require('http');
 const app = express()
 
 
@@ -25,28 +27,47 @@ app.post('/woocommerce-webhook', (req, res) => {
 
   // Send a response to WooCommerce to confirm receipt of the webhook data
   res.status(200).send('Webhook received');
+
+  const orderData = {
+    externalId: webhookData.line_items[0].item.variation_id,
+    firstName: webhookData.billing.first_name,
+    lastName: webhookData.billing.last_name,
+    email: webhookData.billing.email,
+    phone: webhookData.billing.phone,
+    createdAt: webhookData.date_created,
+    paymentType: webhookData.payment_method,
+    paymentStatus: webhookData.payment_method_title,
+    deliveryType: webhookData.shipping_method,
+    deliveryAddress: webhookData.shipping.address_1,
+    deliveryCity: webhookData.shipping.city,
+    deliveryRegion: webhookData.shipping.state,
+    deliveryCountry: webhookData.shipping.country,
+    items: webhookData.line_items.map(item => ({
+      externalIds: { WooCommerce: item.variation_id },
+      offer: { externalId: item.variation_id },
+      quantity: item.quantity,
+      purchasePrice: item.price,
+    })),
+  };
+  request.post({
+    url: 'https://malik-brand.retailcrm.ru/api/v5/orders/create',
+    json: { orders: [orderData] },
+    auth: {
+      username: 'hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
+      password: '',
+    },
+  }, (error, response, body) => {
+    if (error || response.statusCode !== 200) {
+      console.error('Error creating order in RetailCRM:', error || body);
+      res.status(500).send('Error creating order in RetailCRM');
+    } else {
+      console.log('Order created in RetailCRM:', body);
+      res.status(200).send('Webhook received and order created');
+    }
+  })
+
 });
 // Handle incoming WooCommerce webhook requests
-app.put('/woocommerce-webhook', (req, res) => {
-  // Get the webhook data from the request body
-  const webhookData = req.body;
-
-  // Process the webhook data as needed
-  console.log('Received WooCommerce webhook:', webhookData);
-
-  // Send a response to WooCommerce to confirm receipt of the webhook data
-  res.status(200).send('Webhook received');
-});
-app.get('/woocommerce-webhook', (req, res) => {
-  // Get the webhook data from the request body
-  const webhookData = req.body;
-
-  // Process the webhook data as needed
-  console.log('Received WooCommerce webhook:', webhookData);
-
-  // Send a response to WooCommerce to confirm receipt of the webhook data
-  res.status(200).send('Webhook received');
-});
 
 // Start the Express.js server
 app.listen(process.env.PORT || 5000, () => {

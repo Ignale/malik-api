@@ -54,8 +54,7 @@ app.post('/woocommerce-webhook', (req, res) => {
         purchasePrice: item.price,
         comment: webhookData.shipping.address_1,
         properties: [
-          { name: item.name },
-          {}
+          { name: item.name }
         ]
       })),
     })

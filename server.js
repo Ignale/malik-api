@@ -1,5 +1,5 @@
 const express = require('express')
-const request = require('request')
+const querystring = require('querystring')
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const app = express()
@@ -48,22 +48,37 @@ app.post('/woocommerce-webhook', (req, res) => {
       purchasePrice: item.price,
     })),
   };
-  request.post({
-    url: 'https://malik-brand.retailcrm.ru/api/v5/orders/create?apiKey=hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
-    json: { order: JSON.stringify(orderData) },
-    auth: {
-      username: 'hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
-      password: '',
+  const postData = querystring.stringify({ order: orderData });
+
+  // Set the request options
+  const options = {
+    hostname: 'https://malik-brand.retailcrm.ru/',
+    path: '/api/v5/orders/create',
+    method: 'POST',
+    auth: 'hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData),
     },
-  }, (error, response, body) => {
-    if (error || response.statusCode !== 200) {
-      console.error('Error creating order in RetailCRM:', error || body);
-      res.status(500).send('Error creating order in RetailCRM');
-    } else {
-      console.log('Order created in RetailCRM:', body);
-      res.status(200).send('Webhook received and order created');
-    }
-  })
+  };
+  // Send the order data to RetailCRM's API to create the order
+  const req = https.request(options, (res) => {
+    console.log(`RetailCRM API response status: ${res.statusCode}`);
+
+    res.on('data', (d) => {
+      process.stdout.write(d);
+    });
+  });
+
+  req.on('error', (error) => {
+    console.error('Error creating order in RetailCRM:', error);
+    res.status(500).send('Error creating order in RetailCRM');
+  });
+
+  req.write(postData);
+  req.end();
+
+  console.log('Order data sent to RetailCRM:', orderData);
 
 });
 // Handle incoming WooCommerce webhook requests

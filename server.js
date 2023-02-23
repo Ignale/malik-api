@@ -32,7 +32,7 @@ app.post('/woocommerce-webhook', (req, res) => {
 
   const orderData = {
     site: 'malik-brand.com',
-    order: {
+    order: JSON.stringify({
       externalId: webhookData.line_items[0].variation_id,
       firstName: webhookData.billing.first_name,
       lastName: webhookData.billing.last_name,
@@ -51,16 +51,16 @@ app.post('/woocommerce-webhook', (req, res) => {
         quantity: item.quantity,
         purchasePrice: item.price,
       })),
-    }
+    })
 
   };
-  const postData = { data: JSON.stringify(orderData) };
+  const postData = { data: querystring.stringify(orderData) };
 
   // Set the request options
   const options = {
     url: 'https://malik-brand.retailcrm.ru/api/v5/orders/create?apiKey=hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
     method: 'POST',
-    body: postData,
+    form: postData,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },

@@ -58,9 +58,8 @@ app.post('/woocommerce-webhook', (req, res) => {
   // Set the request options
   const options = {
     hostname: 'https://malik-brand.retailcrm.ru',
-    path: '/api/v5/orders/create',
+    path: '/api/v5/orders/create?apiKey=hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
     method: 'POST',
-    auth: 'hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Content-Length': Buffer.byteLength(postData),

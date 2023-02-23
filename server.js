@@ -30,24 +30,28 @@ app.post('/woocommerce-webhook', (req, res) => {
   res.status(200).send('Webhook received');
 
   const orderData = {
-    externalId: webhookData.line_items[0].variation_id,
-    firstName: webhookData.billing.first_name,
-    lastName: webhookData.billing.last_name,
-    email: webhookData.billing.email,
-    phone: webhookData.billing.phone,
-    paymentType: webhookData.payment_method,
-    paymentStatus: webhookData.payment_method_title,
-    deliveryType: webhookData.shipping_method,
-    deliveryAddress: webhookData.shipping.address_1,
-    deliveryCity: webhookData.shipping.city,
-    deliveryRegion: webhookData.shipping.state,
-    deliveryCountry: webhookData.shipping.country,
-    items: webhookData.line_items.map(item => ({
-      externalIds: { WooCommerce: item.variation_id },
-      offer: { externalId: item.variation_id },
-      quantity: item.quantity,
-      purchasePrice: item.price,
-    })),
+    site: 'malik-brand.com',
+    order: {
+      externalId: webhookData.line_items[0].variation_id,
+      firstName: webhookData.billing.first_name,
+      lastName: webhookData.billing.last_name,
+      email: webhookData.billing.email,
+      phone: webhookData.billing.phone,
+      paymentType: webhookData.payment_method,
+      paymentStatus: webhookData.payment_method_title,
+      deliveryType: webhookData.shipping_method,
+      deliveryAddress: webhookData.shipping.address_1,
+      deliveryCity: webhookData.shipping.city,
+      deliveryRegion: webhookData.shipping.state,
+      deliveryCountry: webhookData.shipping.country,
+      items: webhookData.line_items.map(item => ({
+        externalIds: { WooCommerce: item.variation_id },
+        offer: { externalId: item.variation_id },
+        quantity: item.quantity,
+        purchasePrice: item.price,
+      })),
+    }
+
   };
   const postData = querystring.stringify({ order: orderData });
 

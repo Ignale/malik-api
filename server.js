@@ -48,14 +48,10 @@ app.post('/woocommerce-webhook', (req, res) => {
       deliveryCountry: webhookData.shipping.country,
       items: webhookData.line_items.map(item => ({
         productName: item.name,
-        externalIds: [{ code: 'woocommerce' }, { value: item.variation_id }],
         offer: { externalId: item.variation_id },
         quantity: item.quantity,
         purchasePrice: item.price,
         comment: webhookData.shipping.address_1,
-        properties: [
-          { name: item.name }
-        ]
       })),
     })
 

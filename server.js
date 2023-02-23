@@ -34,7 +34,6 @@ app.post('/woocommerce-webhook', (req, res) => {
     lastName: webhookData.billing.last_name,
     email: webhookData.billing.email,
     phone: webhookData.billing.phone,
-    createdAt: webhookData.date_created,
     paymentType: webhookData.payment_method,
     paymentStatus: webhookData.payment_method_title,
     deliveryType: webhookData.shipping_method,

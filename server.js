@@ -1,7 +1,7 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require('express')
+const app = express()
 
-const app = express();
+
 
 // Enable CORS to allow cross-origin requests from WooCommerce
 app.use((req, res, next) => {
@@ -27,7 +27,6 @@ app.post('/woocommerce-webhook', (req, res) => {
 });
 
 // Start the Express.js server
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Express.js server listening on port ${port}`);
-});
+app.listen(process.env.PORT || 5000, () => {
+  console.log(`Example app listening on port`)
+})

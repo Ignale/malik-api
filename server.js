@@ -54,13 +54,13 @@ app.post('/woocommerce-webhook', (req, res) => {
     })
 
   };
-  const postData = { data: querystring.stringify(orderData) };
+  const postData = querystring.stringify(orderData);
 
   // Set the request options
   const options = {
     url: 'https://malik-brand.retailcrm.ru/api/v5/orders/create?apiKey=hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
     method: 'POST',
-    form: postData,
+    body: postData,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },

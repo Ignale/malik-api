@@ -62,7 +62,7 @@ app.post('/woocommerce-webhook', (req, res) => {
     },
   };
   // Send the order data to RetailCRM's API to create the order
-  const req = https.request(options, (res) => {
+  const reqq = https.request(options, (res) => {
     console.log(`RetailCRM API response status: ${res.statusCode}`);
 
     res.on('data', (d) => {
@@ -70,13 +70,13 @@ app.post('/woocommerce-webhook', (req, res) => {
     });
   });
 
-  req.on('error', (error) => {
+  reqq.on('error', (error) => {
     console.error('Error creating order in RetailCRM:', error);
     res.status(500).send('Error creating order in RetailCRM');
   });
 
-  req.write(postData);
-  req.end();
+  reqq.write(postData);
+  reqq.end();
 
   console.log('Order data sent to RetailCRM:', orderData);
 

@@ -53,11 +53,11 @@ app.post('/woocommerce-webhook', (req, res) => {
     }
 
   };
-  const postData = querystring.stringify({ order: orderData });
+  const postData = querystring.stringify({ orders: [orderData] });
 
   // Set the request options
   const options = {
-    hostname: 'https://malik-brand.retailcrm.ru/',
+    hostname: 'https://malik-brand.retailcrm.ru',
     path: '/api/v5/orders/create',
     method: 'POST',
     headers: {

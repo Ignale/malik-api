@@ -51,7 +51,7 @@ app.post('/woocommerce-webhook', (req, res) => {
   };
   request.post({
     url: 'https://malik-brand.retailcrm.ru/api/v5/orders/create?apiKey=hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
-    json: { orders: [orderData] },
+    json: { order: JSON.stringify(orderData) },
     auth: {
       username: 'hZTuUun440aC7NSGLUeFaAyjCX0hh8Wp',
       password: '',

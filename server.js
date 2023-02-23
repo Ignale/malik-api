@@ -10,6 +10,10 @@ app.post('/', (req, res) => {
   console.log(req)
 })
 
+app.put('/', (req, res) => {
+  console.log(req)
+})
+
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Example app listening on port`)
 })

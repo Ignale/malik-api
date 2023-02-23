@@ -38,6 +38,7 @@ app.post('/woocommerce-webhook', (req, res) => {
       lastName: webhookData.billing.last_name,
       email: webhookData.billing.email,
       phone: webhookData.billing.phone,
+      status: 'availability-confirmed',
       paymentType: webhookData.payment_method,
       paymentStatus: webhookData.payment_method_title,
       deliveryType: webhookData.shipping_method,
@@ -46,10 +47,16 @@ app.post('/woocommerce-webhook', (req, res) => {
       deliveryRegion: webhookData.shipping.state,
       deliveryCountry: webhookData.shipping.country,
       items: webhookData.line_items.map(item => ({
-        externalIds: { WooCommerce: item.variation_id },
+        productName: item.name,
+        externalIds: [{ code: 'woocommerce' }, { value: item.variation_id }],
         offer: { externalId: item.variation_id },
         quantity: item.quantity,
         purchasePrice: item.price,
+        comment: webhookData.shipping.address_1,
+        properties: [
+          { name: item.name },
+          {}
+        ]
       })),
     })
 

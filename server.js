@@ -26,6 +26,27 @@ app.post('/woocommerce-webhook', (req, res) => {
   // Send a response to WooCommerce to confirm receipt of the webhook data
   res.status(200).send('Webhook received');
 });
+// Handle incoming WooCommerce webhook requests
+app.put('/woocommerce-webhook', (req, res) => {
+  // Get the webhook data from the request body
+  const webhookData = req.body;
+
+  // Process the webhook data as needed
+  console.log('Received WooCommerce webhook:', webhookData);
+
+  // Send a response to WooCommerce to confirm receipt of the webhook data
+  res.status(200).send('Webhook received');
+});
+app.get('/woocommerce-webhook', (req, res) => {
+  // Get the webhook data from the request body
+  const webhookData = req.body;
+
+  // Process the webhook data as needed
+  console.log('Received WooCommerce webhook:', webhookData);
+
+  // Send a response to WooCommerce to confirm receipt of the webhook data
+  res.status(200).send('Webhook received');
+});
 
 // Start the Express.js server
 app.listen(process.env.PORT || 5000, () => {
